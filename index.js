@@ -17,7 +17,7 @@ const authentication = (config) => {
     google: {
       icon: '<i class="fab fa-google"></i>',
       label: "Google",
-      parameters: { scope: ["user:email"] },
+      parameters: { scope: ["profile"] },
       strategy: new GoogleStrategy(
         params,
         function (accessToken, refreshToken, profile, cb) {
