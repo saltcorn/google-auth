@@ -22,7 +22,6 @@ const authentication = (config) => {
         params,
         function (accessToken, refreshToken, profile, cb) {
           let email = "";
-          db.sql_log(profile);
           if (profile._json && profile._json.email) email = profile._json.email;
           else if (profile.emails && profile.emails.length)
             email = profile.emails[0].value;
