@@ -1,0 +1,12 @@
+{
+  "name": "@saltcorn/google-auth",
+  "version": "0.1.0",
+  "description": "Authentication with Google accounts",
+  "main": "index.js",
+  "dependencies": {
+    "@saltcorn/data": "^0.3.0",
+    "passport-google-oauth20": "^2.0.0"
+  },
+  "author": "Tom Nielsen",
+  "license": "MIT"
+}
