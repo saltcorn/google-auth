@@ -27,15 +27,19 @@ const authentication = (config) => {
           if (profile._json && profile._json.email) email = profile._json.email;
           else if (profile.emails && profile.emails.length)
             email = profile.emails[0].value;
-          User.findOrCreateByAttribute("googleId", profile.id, {
-            email,
-          })
-            .then((u) => {
-              return cb(null, u.session_object);
+          try {
+            User.findOrCreateByAttribute("googleId", profile.id, {
+              email,
             })
-            .catch((err) => {
-              return cb(null, false, req.flash("danger", err.message));
-            });
+              .then((u) => {
+                return cb(null, u.session_object);
+              })
+              .catch((err) => {
+                return cb(null, false, req.flash("danger", err.message));
+              });
+          } catch (e) {
+            return cb(null, false, req.flash("danger", e.message));
+          }
         }
       ),
     },
