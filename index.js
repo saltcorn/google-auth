@@ -6,12 +6,14 @@ const db = require("@saltcorn/data/db");
 
 const { getState } = require("@saltcorn/data/db/state");
 
+const ensure_final_slash = (s) => (s.endsWith("/") ? s : s + "/");
+
 const authentication = (config) => {
   const cfg_base_url = getState().getConfig("base_url");
   const params = {
     clientID: config.clientID || "nokey",
     clientSecret: config.clientSecret || "nosecret",
-    callbackURL: `${cfg_base_url}auth/callback/google`,
+    callbackURL: `${ensure_final_slash(cfg_base_url)}auth/callback/google`,
   };
   return {
     google: {
@@ -27,9 +29,13 @@ const authentication = (config) => {
             email = profile.emails[0].value;
           User.findOrCreateByAttribute("googleId", profile.id, {
             email,
-          }).then((u) => {
-            return cb(null, u.session_object);
-          });
+          })
+            .then((u) => {
+              return cb(null, u.session_object);
+            })
+            .catch((err) => {
+              return cb(null, false, req.flash("danger", err.message));
+            });
         }
       ),
     },
