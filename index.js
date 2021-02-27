@@ -33,8 +33,7 @@ const authentication = (config) => {
             if (!u)
               return cb(
                 null,
-                false,
-                req.flash("danger", "Could not create account")
+                false
               );
             return cb(null, u.session_object);
           });
