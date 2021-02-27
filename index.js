@@ -30,11 +30,7 @@ const authentication = (config) => {
           User.findOrCreateByAttribute("googleId", profile.id, {
             email,
           }).then((u) => {
-            if (!u)
-              return cb(
-                null,
-                false
-              );
+            if (!u) return cb(null, false);
             return cb(null, u.session_object);
           });
         }
@@ -43,14 +39,24 @@ const authentication = (config) => {
   };
 };
 
-const configuration_workflow = () =>
-  new Workflow({
+const configuration_workflow = () => {
+  const cfg_base_url = getState().getConfig("base_url");
+  const blurb = [
+    !cfg_base_url
+      ? "You should set the 'Base URL' configration property. "
+      : "",
+    `Create a new application at the <a href="https://console.developers.google.com/apis/credentials">Google developer portal, API & Services, Credentials</a>. 
+you should obtain a OAuth 2.0 Client ID and secret, set the Authorised JavaScript origins to ${base_url}
+and set the Authorised redirect URI to ${ensure_final_slash(base_url)}auth/callback/google. HTTPS should be enabled.`,
+  ];
+  return new Workflow({
     steps: [
       {
         name: "API keys",
         form: () =>
           new Form({
             labelCols: 3,
+            blurb,
             fields: [
               {
                 name: "clientID",
@@ -69,6 +75,7 @@ const configuration_workflow = () =>
       },
     ],
   });
+};
 
 module.exports = {
   sc_plugin_api_version: 1,
