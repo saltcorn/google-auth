@@ -22,13 +22,13 @@ const authentication = (config) => {
       parameters: { scope: ["profile", "email"] },
       strategy: new GoogleStrategy(
         params,
-        function (accessToken, refreshToken, profile, cb) {
+        async function (accessToken, refreshToken, profile, cb) {
           let email = "";
           if (profile._json && profile._json.email) email = profile._json.email;
           else if (profile.emails && profile.emails.length)
             email = profile.emails[0].value;
           try {
-            User.findOrCreateByAttribute("googleId", profile.id, {
+            await User.findOrCreateByAttribute("googleId", profile.id, {
               email,
             })
               .then((u) => {
