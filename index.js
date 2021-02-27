@@ -46,8 +46,8 @@ const configuration_workflow = () => {
       ? "You should set the 'Base URL' configration property. "
       : "",
     `Create a new application at the <a href="https://console.developers.google.com/apis/credentials">Google developer portal, API & Services, Credentials</a>. 
-you should obtain a OAuth 2.0 Client ID and secret, set the Authorised JavaScript origins to ${base_url}
-and set the Authorised redirect URI to ${ensure_final_slash(base_url)}auth/callback/google. HTTPS should be enabled.`,
+you should obtain a OAuth 2.0 Client ID and secret, set the Authorised JavaScript origins to ${cfg_base_url}
+and set the Authorised redirect URI to ${ensure_final_slash(cfg_base_url)}auth/callback/google. HTTPS should be enabled.`,
   ];
   return new Workflow({
     steps: [
