@@ -1,6 +1,6 @@
 {
   "name": "@saltcorn/google-auth",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Authentication with Google accounts",
   "main": "index.js",
   "dependencies": {
