@@ -37,6 +37,8 @@ const authentication = (config) => {
             _attributes: { json: ["googleId", profile.id] },
           }).then((mu) => {
             if (mu?.disabled) return cb(null, false);
+            if (mu?.auth_method_allowed && !mu.auth_method_allowed("google"))
+              return cb(null, false);
             if (mu) return cb(null, u.session_object);
 
             // no exisiting, check if it has email
