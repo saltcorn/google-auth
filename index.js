@@ -39,7 +39,7 @@ const authentication = (config) => {
             if (mu?.disabled) return cb(null, false);
             if (mu?.auth_method_allowed && !mu.auth_method_allowed("google"))
               return cb(null, false);
-            if (mu) return cb(null, u.session_object);
+            if (mu) return cb(null, mu.session_object);
 
             // no exisiting, check if it has email
             User.findOne({ email }).then((mu) => {
