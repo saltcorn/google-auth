@@ -19,12 +19,20 @@ const authentication = (config) => {
     google: {
       icon: '<i class="fab fa-google"></i>',
       label: "Google",
-      parameters: { scope: ["profile", "email"] },
+      module_name: "google-auth",
+      parameters: (req) => {
+        const source = req?.query?.source
+          ? req.query.source
+          : req?.query?.state
+            ? req.query.state
+            : "web";
+        return { scope: ["profile", "email"], state: source };
+      },
       strategy: new GoogleStrategy(params, function (
         accessToken,
         refreshToken,
         profile,
-        cb
+        cb,
       ) {
         getState().log(6, "google-auth profile: " + JSON.stringify(profile));
         let email = "";
@@ -81,7 +89,7 @@ const configuration_workflow = () => {
     `Create a new application at the <a href="https://console.developers.google.com/apis/credentials">Google developer portal, API & Services, Credentials</a>. 
 you should obtain a OAuth 2.0 Client ID and secret, set the Authorised JavaScript origins to ${cfg_base_url}
 and set the Authorised redirect URI to ${ensure_final_slash(
-      cfg_base_url
+      cfg_base_url,
     )}auth/callback/google. HTTPS should be enabled.`,
   ];
   return new Workflow({
@@ -104,6 +112,7 @@ and set the Authorised redirect URI to ${ensure_final_slash(
                 label: "Google Client Secret",
                 type: "String",
                 required: true,
+                exclude_from_mobile: true,
               },
               {
                 name: "only_existing",
@@ -123,4 +132,11 @@ module.exports = {
   sc_plugin_api_version: 1,
   authentication,
   configuration_workflow,
+  ready_for_mobile: true,
+  capacitor_plugins: () => [
+    {
+      name: "@capacitor/browser",
+      version: "6.0.5",
+    },
+  ],
 };
