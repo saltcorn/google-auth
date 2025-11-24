@@ -132,4 +132,10 @@ module.exports = {
   authentication,
   configuration_workflow,
   ready_for_mobile: true,
+  capacitor_plugins: () => [
+    {
+      name: "@capacitor/browser",
+      version: "6.0.5",
+    },
+  ],
 };
