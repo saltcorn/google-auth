@@ -19,6 +19,7 @@ const authentication = (config) => {
     google: {
       icon: '<i class="fab fa-google"></i>',
       label: "Google",
+      module_name: "google-auth",
       parameters: (req) => {
         const source = req?.query?.source
           ? req.query.source
@@ -111,7 +112,7 @@ and set the Authorised redirect URI to ${ensure_final_slash(
                 label: "Google Client Secret",
                 type: "String",
                 required: true,
-                excludeFromMobile: true,
+                exclude_from_mobile: true,
               },
               {
                 name: "only_existing",
