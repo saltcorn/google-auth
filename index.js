@@ -136,7 +136,7 @@ module.exports = {
   capacitor_plugins: () => [
     {
       name: "@capacitor/browser",
-      version: "6.0.5",
+      version: "7.0.2",
     },
   ],
 };
