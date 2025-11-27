@@ -4,7 +4,7 @@ const Workflow = require("@saltcorn/data/models/workflow");
 const Form = require("@saltcorn/data/models/form");
 const db = require("@saltcorn/data/db");
 
-const { getState } = require("@saltcorn/data/db/state");
+const { getState, features } = require("@saltcorn/data/db/state");
 
 const ensure_final_slash = (s) => (s.endsWith("/") ? s : s + "/");
 
@@ -136,7 +136,7 @@ module.exports = {
   capacitor_plugins: () => [
     {
       name: "@capacitor/browser",
-      version: "6.0.5",
+      version: features.capacitor_version === 7 ? "7.0.2" : "6.0.5",
     },
   ],
 };
