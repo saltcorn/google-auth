@@ -2,7 +2,6 @@
 
 import { Browser } from "@capacitor/browser";
 import { showAlerts } from "../../helpers/common";
-import { handleToken } from "../../helpers/auth";
 
 
 export async function startLogin(strategyName) {
@@ -23,8 +22,11 @@ export async function startLogin(strategyName) {
 }
 
 export async function finishLogin(token) {
+  const { login, handleToken } = await import("../../helpers/auth");
   try {
-    await handleToken(token);
+    // legacy support for handleToken or use login with the token parameter
+    if (handleToken) await handleToken(token);
+    else await login({token});
   } catch (error) {
     console.error(error);
     showAlerts([
